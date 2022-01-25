@@ -12,13 +12,15 @@ class ContatoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $contatos = Contato::query()
             ->withCount('enderecos', 'telefones')
             ->cursorPaginate(5);
 
-        return view('contato.index', compact('contatos'));
+        $mensagem = $request->session()->get('mensagem');
+
+        return view('contato.index', compact('contatos', 'mensagem'));
     }
 
     /**
@@ -74,6 +76,12 @@ class ContatoController extends Controller
             'descricao' => $request->descricao_endereco
         ]);
 
+        
+        $request->session()->flash(
+            'mensagem',
+            "Contato $contato->nome foi criado com sucesso."
+        );
+
         return redirect()->route('contato.index');
     }
 
@@ -83,10 +91,13 @@ class ContatoController extends Controller
      * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function show(Contato $contato)
+    public function show(Contato $contato, Request $request)
     {
         $contato->load('enderecos', 'telefones');
-        return view('contato.show', compact('contato'));
+
+        $mensagem = $request->session()->get('mensagem');
+
+        return view('contato.show', compact('contato', 'mensagem'));
     }
 
     /**
@@ -159,6 +170,11 @@ class ContatoController extends Controller
                 'descricao' => $request->input("descricao_telefone{$telefone->id}")
         ]);
 
+        
+        $request->session()->flash(
+            'mensagem',
+            "Contato $contato->nome foi atualizado com sucesso."
+        );
 
         return redirect()->route('contato.show', $contato);
         
@@ -170,9 +186,13 @@ class ContatoController extends Controller
      * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contato $contato)
+    public function destroy(Contato $contato, Request $request)
     {
         $contato->delete();
+        $request->session()->flash(
+            'mensagem',
+            "Contato $contato->nome foi removido com sucesso."
+        );
         return redirect()->route('contato.index');
     }
 }

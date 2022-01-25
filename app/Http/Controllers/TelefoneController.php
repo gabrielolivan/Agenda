@@ -46,6 +46,12 @@ class TelefoneController extends Controller
             'descricao' => $request->descricao_telefone
         ]);
 
+        
+        $request->session()->flash(
+            'mensagem',
+            "Telefone criado com sucesso."
+        );
+
         return redirect()->route('contato.show', compact('contato'));
 
     }
@@ -92,6 +98,11 @@ class TelefoneController extends Controller
             'descricao' => $request->descricao_telefone
         ]);
 
+        $request->session()->flash(
+            'mensagem',
+            "Telefone atualizado com sucesso."
+        );
+
         return redirect()->route('contato.show', compact('contato'));
     }
 
@@ -101,9 +112,14 @@ class TelefoneController extends Controller
      * @param  \App\Models\Telefone  $telefone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contato $contato, Telefone $telefone)
+    public function destroy(Contato $contato, Telefone $telefone, Request $request)
     {
         $telefone->delete();
+
+        $request->session()->flash(
+            'mensagem',
+            "Telefone removido com sucesso."
+        );
         return redirect()->back();
     }
 }

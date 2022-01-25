@@ -14,6 +14,8 @@
 @section('conteudo')
 
 
+@include('layout.mensagem', ['mensagem' => $mensagem])
+
 <div class="card-body">
     
     <form action="{{ route('contato.destroy', $contato) }}" method="post">

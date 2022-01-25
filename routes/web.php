@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\TelefoneController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('contato');
-});
+})->name('home');
 
-Route::resource('contato', ContatoController::class);
-Route::resource('contato.telefone', TelefoneController::class);
-Route::resource('contato.endereco', EnderecoController::class);
+Route::resource('contato', ContatoController::class)->middleware('auth');
+Route::resource('contato.telefone', TelefoneController::class)->middleware('auth');
+Route::resource('contato.endereco', EnderecoController::class)->middleware('auth');
+
+Auth::routes();

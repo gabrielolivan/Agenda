@@ -59,6 +59,12 @@ class EnderecoController extends Controller
             'descricao' => $request->descricao_endereco
         ]);
 
+        
+        $request->session()->flash(
+            'mensagem',
+            "Endereço criado com sucesso."
+        );
+
         return redirect()->route('contato.show', $contato);
     }
 
@@ -114,6 +120,13 @@ class EnderecoController extends Controller
             'cep' =>$request->cep_endereco,
             'descricao' => $request->descricao_endereco
         ]);
+
+        
+        $request->session()->flash(
+            'mensagem',
+            "Endereço atualizado com sucesso."
+        );
+
         return redirect()->route('contato.show', compact('contato'));
     }
 
@@ -123,9 +136,16 @@ class EnderecoController extends Controller
      * @param  \App\Models\Endereco  $endereco
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contato $contato, Endereco $endereco)
+    public function destroy(Contato $contato, Endereco $endereco, Request $request)
     {
         $endereco->delete();
+
+        
+        $request->session()->flash(
+            'mensagem',
+            "Endereço removido com sucesso."
+        );
+
         return redirect()->back();
     }
 }
