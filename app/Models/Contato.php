@@ -9,7 +9,10 @@ class Contato extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['nome'];
+    protected $fillable = [
+        'nome',
+        'email'
+    ];
 
     public function enderecos()
     {

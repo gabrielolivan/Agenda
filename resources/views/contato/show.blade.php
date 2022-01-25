@@ -21,10 +21,13 @@
     <form action="{{ route('contato.destroy', $contato) }}" method="post">
         @csrf
         @method('DELETE')
-        <h3 class="card-title mb-3">{{ $contato->nome }}
-        <a href="{{ route('contato.edit', $contato) }}" class="btn btn-sm"><i class="bi bi-pencil"></i></a>
-        <button type="submit" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></a>
-        </h3>
+        <div>
+            <h3 class="card-title mb-1">{{ $contato->nome }}
+                <a href="{{ route('contato.edit', $contato) }}" class="btn btn-sm"><i class="bi bi-pencil"></i></a>
+            <button type="submit" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></a>
+            </h3>
+            <h6 class="card-title mb-3">{{ $contato->email }}</h6>    
+        </div>
     </form>
     
     

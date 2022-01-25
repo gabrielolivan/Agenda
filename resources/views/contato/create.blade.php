@@ -17,6 +17,7 @@
     @csrf
     {{-- Contato --}}
     <x-input name="nome" id="nome" :value="old('nome')" span="Nome" required='true'/>
+    <x-input name="email" id="email" :value="old('email')" span="Email" required='true'/>
 
     {{-- Endereço --}}
     <x-input name="pais_endereco" id="pais_endereco" :value="old('pais_endereco')" span="País" />

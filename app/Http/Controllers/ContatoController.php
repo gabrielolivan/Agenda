@@ -44,6 +44,7 @@ class ContatoController extends Controller
 
         $request->validate([
             'nome' => ['required', 'min:2', 'max:100'],
+            'email' => ['max:100'],
             'pais_endereco' => ['max:100'],
             'estado_endereco' => ['max:100'],
             'cidade_endereco' => ['max:100'],
@@ -57,24 +58,29 @@ class ContatoController extends Controller
         ]);
 
         $contato = Contato::create([
-            'nome' => $request->nome 
+            'nome' => $request->nome,
+            'email' => $request->email
         ]);
 
-        $contato->telefones()->create([
-            'numero' => $request->telefone,
-            'descricao' => $request->descricao_telefone
-        ]);
+        if(!empty($request->telefone)){
+            $contato->telefones()->create([
+                'numero' => $request->telefone,
+                'descricao' => $request->descricao_telefone
+            ]);
+        };
 
-        $contato->enderecos()->create([
-            'pais' => $request->pais_endereco,
-            'estado' => $request->estado_endereco,
-            'cidade' => $request->cidade_endereco,
-            'bairro' => $request->bairro_endereco,
-            'logradouro' => $request->logradouro_endereco,
-            'numero' => $request->numero_endereco,
-            'cep' => $request->cep_endereco,
-            'descricao' => $request->descricao_endereco
-        ]);
+        if(!empty($request->pais_endereco)){
+            $contato->enderecos()->create([
+                'pais' => $request->pais_endereco,
+                'estado' => $request->estado_endereco,
+                'cidade' => $request->cidade_endereco,
+                'bairro' => $request->bairro_endereco,
+                'logradouro' => $request->logradouro_endereco,
+                'numero' => $request->numero_endereco,
+                'cep' => $request->cep_endereco,
+                'descricao' => $request->descricao_endereco
+            ]);
+        };
 
         
         $request->session()->flash(
@@ -123,7 +129,8 @@ class ContatoController extends Controller
     {
         // Validação
         $request->validate([
-            'nome' => ['required', 'min:2', 'max:100']
+            'nome' => ['required', 'min:2', 'max:100'],
+            'email' => ['max:100']
         ]);
 
         foreach ($contato->enderecos as $endereco){
@@ -148,7 +155,8 @@ class ContatoController extends Controller
 
         // Update
         $contato->update([
-            'nome' => $request->nome 
+            'nome' => $request->nome, 
+            'email' => $request->email
         ]);
 
         foreach ($contato->enderecos as $endereco){

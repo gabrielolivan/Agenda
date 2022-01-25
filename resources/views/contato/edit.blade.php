@@ -21,6 +21,7 @@
     <div class="card-body mb-3">
         <h5 class="card-title">Contato</h5>
         <x-input name="nome" id="nome" :value="old('nome', $contato->nome)" span="Nome" required='true'/>
+        <x-input type='email' name="email" id="email" :value="old('email', $contato->email)" span="Email"/>
     </div>
 
     {{-- Endereços --}}

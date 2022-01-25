@@ -22,6 +22,7 @@
     <thead>
         <tr>
             <th>Nome</th>
+            <th class="text-center">Email</th>
             <th class="text-center">Endereços</th>
             <th class="text-center">Telefones</th>
             <th class="text-center">Ações</th>
@@ -31,6 +32,7 @@
         @forelse ($contatos as $contato)
         <tr>
             <td>{{ $contato->nome}}</td>
+            <td class="text-center">{{ $contato->email}}</td>
             <td class="text-center">{{ $contato->enderecos_count }}</td>
             <td class="text-center">{{ $contato->telefones_count }}</td>
             <td class="text-center">
@@ -47,9 +49,10 @@
         @empty
         <tr>
             <td>Sem Contato</td>
-            <td>N/A</td>
-            <td>N/A</td>
-            <td>N/A</td>
+            <td class="text-center">N/A</td>
+            <td class="text-center">N/A</td>
+            <td class="text-center">N/A</td>
+            <td class="text-center">N/A</td>
         </tr>
         @endforelse
 
