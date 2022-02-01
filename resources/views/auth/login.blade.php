@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('conteudo')
-<div class="container">
+<div class="container mb-3">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

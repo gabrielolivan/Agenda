@@ -23,4 +23,9 @@ class Contato extends Model
     {
         return $this->hasMany(Telefone::class);
     }
+
+    public function grupo_contatos()
+    {
+        return $this->belongsToMany(GrupoContato::class, 'contatos_grupos');
+    }
 }

@@ -27,3 +27,9 @@ Route::resource('contato.telefone', TelefoneController::class)->middleware('auth
 Route::resource('contato.endereco', EnderecoController::class)->middleware('auth');
 
 Auth::routes();
+
+
+//Datatables
+Route::get('/contato-beta', [ContatoController::class, 'index_beta'])->middleware('auth')->name('contato.index_beta');
+Route::get('/contato-code', [ContatoController::class, 'index_code'])->middleware('auth')->name('contato.index_code');
+Route::get('/copntato_datatable', [ContatoController::class, 'datatable'])->middleware('auth')->name('contato.datatable');

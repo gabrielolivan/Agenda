@@ -29,14 +29,14 @@
         <h5 class="card-title">Endereços</h5>
         @forelse ($contato->enderecos as $endereco)
         <div class="card-body mb-1 border rounded">
-            <x-input name="pais_endereco{{$endereco->id}}" id="pais_endereco{{$endereco->id}}" :value="old('pais_endereco{{$endereco->id}}', $endereco->pais)" span="País" erro="Escreve direito o País DIAXO!!!"/>
-            <x-input name="estado_endereco{{$endereco->id}}" id="estado_endereco{{$endereco->id}}" :value="old('estado_endereco{{$endereco->id}}', $endereco->estado)" span="Estado" />
-            <x-input name="cidade_endereco{{$endereco->id}}" id="cidade_endereco{{$endereco->id}}" :value="old('cidade_endereco{{$endereco->id}}', $endereco->cidade)" span="Cidade" />
-            <x-input name="bairro_endereco{{$endereco->id}}" id="bairro_endereco{{$endereco->id}}" :value="old('bairro_endereco{{$endereco->id}}', $endereco->bairro)" span="Bairro" />
-            <x-input name="logradouro_endereco{{$endereco->id}}" id="logradouro_endereco{{$endereco->id}}" :value="old('logradouro_endereco{{$endereco->id}}', $endereco->logradouro)" span="Logradouro" />
-            <x-input name="numero_endereco{{$endereco->id}}" id="numero_endereco{{$endereco->id}}" :value="old('numero_endereco{{$endereco->id}}', $endereco->numero)" span="Número" />
-            <x-input name="cep_endereco{{$endereco->id}}" id="cep_endereco{{$endereco->id}}" :value="old('cep_endereco{{$endereco->id}}', $endereco->cep)" span="CEP" />
-            <x-input name="descricao_endereco{{$endereco->id}}" id="descricao_endereco{{$endereco->id}}" :value="old('descricao_endereco{{$endereco->id}}', $endereco->descricao)" span="Descrição do endereço" />
+            <x-input name="pais_endereco{{$endereco->id}}" id="pais_endereco{{$endereco->id}}" :value='old("pais_endereco{$endereco->id}", $endereco->pais)' span="País" erro="Escreve direito o País DIAXO!!!"/>
+            <x-input name="estado_endereco{{$endereco->id}}" id="estado_endereco{{$endereco->id}}" :value='old("estado_endereco{$endereco->id}", $endereco->estado)' span="Estado" />
+            <x-input name="cidade_endereco{{$endereco->id}}" id="cidade_endereco{{$endereco->id}}" :value='old("cidade_endereco{$endereco->id}", $endereco->cidade)' span="Cidade" />
+            <x-input name="bairro_endereco{{$endereco->id}}" id="bairro_endereco{{$endereco->id}}" :value='old("bairro_endereco{$endereco->id}", $endereco->bairro)' span="Bairro" />
+            <x-input name="logradouro_endereco{{$endereco->id}}" id="logradouro_endereco{{$endereco->id}}" :value='old("logradouro_endereco{$endereco->id}", $endereco->logradouro)' span="Logradouro" />
+            <x-input name="numero_endereco{{$endereco->id}}" id="numero_endereco{{$endereco->id}}" :value='old("numero_endereco{$endereco->id}", $endereco->numero)' span="Número" />
+            <x-input name="cep_endereco{{$endereco->id}}" id="cep_endereco{{$endereco->id}}" :value='old("cep_endereco{$endereco->id}", $endereco->cep)' span="CEP" />
+            <x-input name="descricao_endereco{{$endereco->id}}" id="descricao_endereco{{$endereco->id}}" :value='old("descricao_endereco{$endereco->id}", $endereco->descricao)' span="Descrição do endereço" />
         </div>
         @empty
         <div class="card-body mb-1 border rounded-pill">

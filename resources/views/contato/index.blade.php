@@ -2,14 +2,6 @@
 
 @section('titulo', 'Contatos')
 
-@section('breadcrumb')
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-    <ol class="breadcrumb bg-light fs-6 ms-3 ">
-        <li class="active">Contatos</li>
-    </ol>
-</nav>
-@endsection
-
 @section('conteudo')
 
 @include('layout.mensagem', ['mensagem' => $mensagem])
@@ -36,7 +28,7 @@
             <td class="text-center">{{ $contato->enderecos_count }}</td>
             <td class="text-center">{{ $contato->telefones_count }}</td>
             <td class="text-center">
-                <form action="{{ route('contato.destroy', $contato) }}" method="POST">
+                <form action="{{ route('contato.destroy', $contato) }}" method="POST" onsubmit="return confirm('Você tem certeza?')">
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('contato.show', $contato) }}" class="btn btn-sm btn-secondary"><i class="bi bi-eye"></i></a>

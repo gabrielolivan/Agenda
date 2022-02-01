@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ContatoDataTable;
 use App\Models\Contato;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ContatoController extends Controller
 {
@@ -22,6 +24,37 @@ class ContatoController extends Controller
 
         return view('contato.index', compact('contatos', 'mensagem'));
     }
+
+    public function index_beta(Request $request, ContatoDataTable $dataTable)
+    {
+        
+        $mensagem = $request->session()->get('mensagem');
+
+        return $dataTable->render('contato.index-beta', compact('mensagem'));
+    }
+
+
+    // Estilo SV
+
+    public function index_code(Request $request)
+    {
+        $mensagem = $request->session()->get('mensagem');
+
+        return view('contato.index-code', compact('mensagem'));
+    }
+
+    public function datatable(DataTables $dataTables)
+    {
+        $query = Contato::query()
+            ->withCount('enderecos', 'telefones');
+
+        return $dataTables->eloquent($query)
+            ->make();
+    }
+
+
+    // fim do estilo SV
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,18 +77,28 @@ class ContatoController extends Controller
 
         $request->validate([
             'nome' => ['required', 'min:2', 'max:100'],
-            'email' => ['max:100'],
-            'pais_endereco' => ['max:100'],
-            'estado_endereco' => ['max:100'],
-            'cidade_endereco' => ['max:100'],
-            'bairro_endereco' => ['max:100'],
-            'logradouro_endereco' => ['max:100'],
-            'numero_endereco' => ['max:17'],
-            'cep_endereco' => ['max:9'],
-            'descricao_endereco' =>['max:255'],
-            'telefone' => ['max:17'],
-            'descricao_telefone' => ['max:255']
+            'email' => ['email', 'max:100'],
         ]);
+
+        if(!empty($request->pais_endereco)){
+            $request->validate([
+                'pais_endereco' => ['required', 'max:100'],
+                'estado_endereco' => ['required', 'max:100'],
+                'cidade_endereco' => ['required', 'max:100'],
+                'bairro_endereco' => ['required', 'max:100'],
+                'logradouro_endereco' => ['required', 'max:100'],
+                'numero_endereco' => ['required', 'max:17'],
+                'cep_endereco' => ['required', 'max:9'],
+                'descricao_endereco' =>['max:255'],
+            ]);
+        };
+
+        if(!empty($request->telefone)){
+            $request->validate([
+                'telefone' => ['required', 'max:17'],
+                'descricao_telefone' => ['max:255'],
+            ]);
+        };
 
         $contato = Contato::create([
             'nome' => $request->nome,
@@ -127,6 +170,8 @@ class ContatoController extends Controller
      */
     public function update(Request $request, Contato $contato)
     {
+        $contato->load('enderecos', 'telefones');
+
         // Validação
         $request->validate([
             'nome' => ['required', 'min:2', 'max:100'],
@@ -160,7 +205,7 @@ class ContatoController extends Controller
         ]);
 
         foreach ($contato->enderecos as $endereco){
-            $contato->enderecos()->where('id', $endereco->id)->update([
+            $contato->enderecos->where('id', $endereco->id)->first()->update([
                 'pais' => $request->input("pais_endereco{$endereco->id}"),
                 'estado' => $request->input("estado_endereco{$endereco->id}"),
                 'cidade' => $request->input("cidade_endereco{$endereco->id}"),
@@ -173,7 +218,7 @@ class ContatoController extends Controller
         };
 
         foreach ($contato->telefones as $telefone)
-            $contato->telefones()->where('id', $telefone->id)->update([
+            $contato->telefones->where('id', $telefone->id)->first()->update([
                 'numero' => $request->input("telefone{$telefone->id}"),
                 'descricao' => $request->input("descricao_telefone{$telefone->id}")
         ]);
@@ -201,6 +246,8 @@ class ContatoController extends Controller
             'mensagem',
             "Contato $contato->nome foi removido com sucesso."
         );
+
+        // return redirect()->back();
         return redirect()->route('contato.index');
     }
 }

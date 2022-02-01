@@ -18,7 +18,7 @@
 
 <div class="card-body">
     
-    <form action="{{ route('contato.destroy', $contato) }}" method="post">
+    <form action="{{ route('contato.destroy', $contato) }}" method="post" onsubmit="return confirm('Você tem certeza?')">
         @csrf
         @method('DELETE')
         <div>
@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-md-2"><strong>Cep: </strong><span>{{ $endereco->cep }}</span></div>
                 <div class="col-md-8"><strong>Descrição: </strong><span class="text-wrap">{{ $endereco->descricao }}</span></div>
-                <form action="{{ route('contato.endereco.destroy', [$contato, $endereco]) }}" method="post" class="col-md-2">
+                <form action="{{ route('contato.endereco.destroy', [$contato, $endereco]) }}" method="post" class="col-md-2" onsubmit="return confirm('Você tem certeza?')">
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('contato.endereco.edit', [$contato, $endereco]) }}"><i class="bi bi-pencil"></i></a>
@@ -73,7 +73,7 @@
             <div class="row">
                 <div class="col-md-2"><strong>Número: </strong><span>{{ $telefone->numero }}</span></div>
                 <div class="col-md-8"><strong>Descrição: </strong><span class="text-wrap">{{ $telefone->descricao }}</span></div>
-                <form action="{{ route('contato.telefone.destroy', [$contato, $telefone]) }}" method="post" class="col-md-2">
+                <form action="{{ route('contato.telefone.destroy', [$contato, $telefone]) }}" method="post" class="col-md-2" onsubmit="return confirm('Você tem certeza?')">
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('contato.telefone.edit', [$contato, $telefone]) }}"><i class="bi bi-pencil"></i></a>
