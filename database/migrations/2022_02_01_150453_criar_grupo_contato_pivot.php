@@ -18,7 +18,7 @@ class CriarGrupoContatoPivot extends Migration
             $table->foreignId('contato_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->index(['grupo_contato_id', 'contato_id']);
+            $table->unique(['grupo_contato_id', 'contato_id']);
         });
     }
 

@@ -9,8 +9,8 @@
 ])
 
 <div class="input-group mt-3">
-    <span class="input-group-text" for="{{$id}}">{{$span}}</span>
-    <input class="form-control" type="{{$type}}" id="{{$id}}" name="{{$name}}" value="{{$value}}" {{$required ? 'required' : ''}}>
+    <span class="input-group-text col-md-2" for="{{$id}}">{{$span}}</span>
+    <input class="form-control col-md-10" type="{{$type}}" id="{{$id}}" name="{{$name}}" value="{{$value}}" {{$required ? 'required' : ''}}>
 </div>
 @error($name)
 @if (empty($erro))

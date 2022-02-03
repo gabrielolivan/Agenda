@@ -1,23 +1,22 @@
 @extends('layout.layout')
 
-@section('titulo', 'Contatos')
+@section('titulo', 'Grupo de contatos')
 
 @section('conteudo')
 
 @include('layout.mensagem', ['mensagem' => $mensagem])
 
 <p class="mt-2">
-    <a href="{{ route('contato.create')}}" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i></a>
+    <a href="{{ route('grupo_contato.create')}}" class="btn btn-primary btn-sm">Criar usando bootstrap-select<i class="bi bi-plus"></i></a>
+    <a href="{{ route('grupo_contato.select')}}" class="btn btn-primary btn-sm">Criar usando Select2<i class="bi bi-plus"></i></a>
 </p>
 
-<table class="table table-striped table-hover w-100" id="tabela_contato">
+<table class="table table-striped table-hover w-100" id="tabela_grupo">
     <thead>
         <tr>
-            <th>Nome</th>
-            <th class="text-center">Email</th>
-            <th class="text-center">Qtd endereços</th>
-            <th class="text-center">Qtd telefones</th>
-            <th class="text-center">Ações</th>
+            <th>Grupo</th>
+            <th class="text-center">Qtd contatos</th>
+            <th class="text-end">Ações</th>
         </tr>
     </thead>
 </table>
@@ -25,25 +24,22 @@
 <script>
     var table;
     $(function(){
-        table = $('#tabela_contato').DataTable({
+        table = $('#tabela_grupo').DataTable({
             serverSide: true,
-            ajax: '{{ route('contato.datatable') }}',
+            ajax: '{{ route('grupo_contato.datatable') }}',
             "language": {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.4/i18n/pt_br.json',
             },
             // scrollCollapse: true,
-            // scrollY: '300px',
+            // scrollY: '200px',
             // paging: false,
             columns: [
                 {data: 'nome'},
-                {data: 'email'},
-                {data: 'enderecos_count', searchable: false},
-                {data: 'telefones_count', searchable: false, class: 'text-center'},
+                {data: 'contatos_count', searchable: false, class: 'text-center'},
                 {data: (row) => {
-                    let id = row.id
-                    let showtUrl = "{{route('contato.show', 'id')}}".replace('id', id)
-                    let editUrl = "{{route('contato.edit', 'id')}}".replace('id', id)
-                    let deleteUrl = "{{route('contato.destroy', 'id')}}".replace('id', id)
+                    let showtUrl = "{{route('grupo_contato.show', 'id')}}".replace('id', row.id)
+                    let editUrl = "{{route('grupo_contato.edit', 'id')}}".replace('id', row.id)
+                    let deleteUrl = "{{route('grupo_contato.destroy', 'id')}}".replace('id', row.id)
                     return `
                     <form action="${deleteUrl}" onsubmit="return confirm('tem certeza?')" method="POST">
                         @method('DELETE')
@@ -59,7 +55,7 @@
             ]
         })
     })
-    
+
 </script>
 @endsection
 

@@ -13,6 +13,10 @@
 
 @section('conteudo')
 
+<p>
+  <h4>Criar contato</h4>
+</p>
+
 <form action="{{ route('contato.store') }}" method="post">
     @csrf
     {{-- Contato --}}

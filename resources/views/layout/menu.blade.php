@@ -17,6 +17,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('contato.index_code') }}">Contato-Code</a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('grupo_contato.index') }}">Grupo de Contatos</a>
+            </li>
             @endguest
             
         </ul>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contato;
 use App\Models\GrupoContato;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Editor\Fields\Select;
 
 class GrupoContatoController extends Controller
 {
@@ -12,9 +15,20 @@ class GrupoContatoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $mensagem = $request->session()->get('mensagem');
+
+        return view('grupo_contato.index', compact('mensagem'));
+    }
+
+    public function datatable(DataTables $dataTables)
+    {
+        $query = GrupoContato::query()
+            ->withCount('contatos');
+
+        return $dataTables->eloquent($query)
+            ->make();
     }
 
     /**
@@ -24,7 +38,29 @@ class GrupoContatoController extends Controller
      */
     public function create()
     {
-        //
+        $contatos = Contato::query()
+            ->select('id', 'nome')
+            ->get();
+
+        return view('grupo_contato.create', compact('contatos'));
+    }
+
+    public function create_select()
+    {
+        $contatos = Contato::query()
+            ->select('id', 'nome')
+            ->get();
+
+        return view('grupo_contato.create-select2', compact('contatos'));
+    }
+
+    public function select_grupo()
+    {
+        $dados = Contato::query()
+            ->select('nome')
+            ->get();
+
+        return $dados;
     }
 
     /**
@@ -35,7 +71,25 @@ class GrupoContatoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nome' => ['required', 'min:2', 'max:255'],
+            'descricao' =>['max:255'],
+            'contatos' => ['required'],
+        ]);
+
+        $grupo = GrupoContato::create([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+        ]);
+
+        $grupo->contatos()->sync($request->contatos);
+
+        $request->session()->flash(
+            'mensagem',
+            "Grupo $grupo->nome criado com sucesso."
+        );
+
+        return redirect(route('grupo_contato.index'));
     }
 
     /**
@@ -46,7 +100,9 @@ class GrupoContatoController extends Controller
      */
     public function show(GrupoContato $grupoContato)
     {
-        //
+        $grupoContato->load('contatos');
+
+        return view('grupo_contato.show', compact('grupoContato'));
     }
 
     /**
@@ -57,7 +113,11 @@ class GrupoContatoController extends Controller
      */
     public function edit(GrupoContato $grupoContato)
     {
-        //
+        $grupoContato->load('contatos');
+        
+        $contatos = Contato::pluck('nome', 'id');
+        
+        return view('grupo_contato.edit', compact('grupoContato', 'contatos'));
     }
 
     /**
@@ -69,7 +129,23 @@ class GrupoContatoController extends Controller
      */
     public function update(Request $request, GrupoContato $grupoContato)
     {
-        //
+
+        $request->validate([
+            'nome' => ['required', 'min:2', 'max:255'],
+            'descricao' => ['max:255'],
+            'contatos' => ['required'],
+        ]);
+
+        $grupoContato->contatos()->sync($request->contatos);
+        
+        $grupoContato->update([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+        ]);
+
+        
+
+        return redirect()->route('grupo_contato.index');
     }
 
     /**
@@ -78,8 +154,15 @@ class GrupoContatoController extends Controller
      * @param  \App\Models\GrupoContato  $grupoContato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GrupoContato $grupoContato)
+    public function destroy(GrupoContato $grupoContato, Request $request)
     {
-        //
+        $grupoContato->delete();
+
+        $request->session()->flash(
+            'mensagem',
+            "Grupo $grupoContato->nome foi removido com sucesso."
+        );
+
+        return redirect()->route('grupo_contato.index');
     }
 }
