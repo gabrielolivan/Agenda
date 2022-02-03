@@ -32,7 +32,7 @@
         </div>
         @empty
         <div class="card-body mb-1 border rounded">
-            <h6>Não possui endereço cadastrado</h2>
+            <h6>Não possui contato cadastrado</h2>
         </div>
         @endforelse
 

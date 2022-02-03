@@ -28,13 +28,13 @@
             <label class="input-group col-md-2" for="contatos">Contatos</label> 
             <select required="true" class="input-group-text"name="contatos[]" id="contatos" multiple>
                 
-                @foreach($contatos as $contato)
+                {{-- @foreach($contatos as $contato)
                 <option value="{{$contato->id}}" 
                     @if(old('contatos'))
                     {{in_array($contato->id, old('contatos')) ? 'selected' : ''}}
                     @endif
                 >{{ $contato->nome }}</option>
-                @endforeach
+                @endforeach --}}
     
             </select>
         </div>
@@ -44,15 +44,20 @@
 <script>
     $(document).ready(function() {
         $('#contatos').select2({
-            // ajax: '{{ route('grupo_contato.select2') }}',
-            // dataType: 'json',
-            // data: (params) => {
-            //     var query = {
-            //         search: params.nome,
-            //     }
+            ajax: {
+                url: '{{ route('grupo_contato.select2') }}',
+                dataType: 'json',
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    }
 
-            //     return query;
-            // },
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                }
+            
+            },
+            minimumInputLength: 2,
             width: '100%',
         });
     });

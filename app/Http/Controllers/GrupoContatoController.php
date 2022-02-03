@@ -54,13 +54,22 @@ class GrupoContatoController extends Controller
         return view('grupo_contato.create-select2', compact('contatos'));
     }
 
-    public function select_grupo()
+    public function select_grupo(Request $request)
     {
-        $dados = Contato::query()
-            ->select('nome')
-            ->get();
+        // $dados = Contato::pluck('')
+        // dd($request->get('search'));
+        $dados = Contato::where('nome', 'like', "%{$request->get('search')}%")->get();
 
-        return $dados;
+        $ar = [
+            "results" => $dados->map(function($dado){
+                return [
+                    "id"=>$dado->id,
+                    "text"=>$dado->nome,
+                ];
+            }),
+        ];
+
+        return response()->json($ar);
     }
 
     /**
@@ -143,9 +152,12 @@ class GrupoContatoController extends Controller
             'descricao' => $request->descricao,
         ]);
 
+        $request->session()->flash(
+            'mensagem',
+            "Grupo $grupoContato->nome atualizado com sucesso."
+        );
         
-
-        return redirect()->route('grupo_contato.index');
+        return redirect()->back();
     }
 
     /**
