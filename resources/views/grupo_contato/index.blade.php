@@ -4,8 +4,6 @@
 
 @section('conteudo')
 
-@include('layout.mensagem')
-
 <p class="mt-2">
     <a href="{{ route('grupo_contato.create')}}" class="btn btn-primary btn-sm">Criar usando bootstrap-select<i class="bi bi-plus"></i></a>
     <a href="{{ route('grupo_contato.select')}}" class="btn btn-primary btn-sm">Criar usando Select2<i class="bi bi-plus"></i></a>

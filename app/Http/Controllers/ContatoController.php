@@ -75,7 +75,7 @@ class ContatoController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        $nome = $request->validate([
             'nome' => ['required', 'min:2', 'max:100'],
             'email' => ['email', 'max:100'],
         ]);
@@ -100,10 +100,7 @@ class ContatoController extends Controller
             ]);
         };
 
-        $contato = Contato::create([
-            'nome' => $request->nome,
-            'email' => $request->email
-        ]);
+        $contato = Contato::create($nome);
 
         if(!empty($request->telefone)){
             $contato->telefones()->create([
@@ -131,7 +128,7 @@ class ContatoController extends Controller
             "Contato $contato->nome foi criado com sucesso."
         );
 
-        return redirect()->route('contato.index');
+        return redirect()->route('contato.index_code');
     }
 
     /**
@@ -173,7 +170,7 @@ class ContatoController extends Controller
         $contato->load('enderecos', 'telefones');
 
         // Validação
-        $request->validate([
+        $nome = $request->validate([
             'nome' => ['required', 'min:2', 'max:100'],
             'email' => ['max:100']
         ]);
@@ -199,10 +196,7 @@ class ContatoController extends Controller
         };
 
         // Update
-        $contato->update([
-            'nome' => $request->nome, 
-            'email' => $request->email
-        ]);
+        $contato->update($nome);
 
         foreach ($contato->enderecos as $endereco){
             $contato->enderecos->where('id', $endereco->id)->first()->update([
@@ -248,6 +242,6 @@ class ContatoController extends Controller
         );
 
         // return redirect()->back();
-        return redirect()->route('contato.index');
+        return redirect()->route('contato.index_code');
     }
 }

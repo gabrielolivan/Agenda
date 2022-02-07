@@ -37,7 +37,7 @@
     <x-input name="telefone" id="telefone" :value="old('telefone')" span="Telefone" />
     <x-input name="descricao_telefone" id="descricao_telefone" :value="old('descricao_telefone')" span="Descrição do telefone" />
     
-    <button class="btn btn-primary">Criar</button>
+    <button class="btn btn-primary mt-2">Criar</button>
 </form>
 
 @endsection

@@ -17,9 +17,7 @@ class GrupoContatoController extends Controller
      */
     public function index(Request $request)
     {
-        $mensagem = $request->session()->get('mensagem');
-
-        return view('grupo_contato.index', compact('mensagem'));
+        return view('grupo_contato.index');
     }
 
     public function datatable(DataTables $dataTables)
@@ -174,6 +172,7 @@ class GrupoContatoController extends Controller
             'mensagem',
             "Grupo $grupoContato->nome foi removido com sucesso."
         );
+
 
         return redirect()->route('grupo_contato.index');
     }
