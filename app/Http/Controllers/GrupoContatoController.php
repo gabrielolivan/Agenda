@@ -6,7 +6,6 @@ use App\Models\Contato;
 use App\Models\GrupoContato;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Editor\Fields\Select;
 
 class GrupoContatoController extends Controller
 {
@@ -91,12 +90,9 @@ class GrupoContatoController extends Controller
 
         $grupo->contatos()->sync($request->contatos);
 
-        $request->session()->flash(
-            'mensagem',
-            "Grupo $grupo->nome criado com sucesso."
-        );
-
-        return redirect(route('grupo_contato.index'));
+        return redirect(route('grupo_contato.index'))->with([
+            'mensagem' => "Grupo $grupo->nome foi criado com sucesso."
+        ]);
     }
 
     /**
@@ -149,13 +145,10 @@ class GrupoContatoController extends Controller
             'nome' => $request->nome,
             'descricao' => $request->descricao,
         ]);
-
-        $request->session()->flash(
-            'mensagem',
-            "Grupo $grupoContato->nome atualizado com sucesso."
-        );
         
-        return redirect()->back();
+        return redirect()->back()->with([
+            'mensagem' => "Grupo $grupoContato->nome foi atualizado com sucesso."
+        ]);
     }
 
     /**
@@ -168,12 +161,8 @@ class GrupoContatoController extends Controller
     {
         $grupoContato->delete();
 
-        $request->session()->flash(
-            'mensagem',
-            "Grupo $grupoContato->nome foi removido com sucesso."
-        );
-
-
-        return redirect()->route('grupo_contato.index');
+        return redirect()->route('grupo_contato.index')->with([
+            'mensagem' => "Grupo $grupoContato->nome foi removido com sucesso."
+        ]);
     }
 }

@@ -26,7 +26,7 @@
             <td class="text-center">{{ $contato->enderecos_count }}</td>
             <td class="text-center">{{ $contato->telefones_count }}</td>
             <td class="text-center">
-                <form action="{{ route('contato.destroy', $contato) }}" method="POST" onsubmit="return confirm('Você tem certeza?')">
+                <form action="{{ route('contato.destroy', $contato) }}" method="POST" onsubmit="return confirm('Tem certeza?')">
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('contato.show', $contato) }}" class="btn btn-sm btn-secondary"><i class="bi bi-eye"></i></a>
@@ -57,5 +57,6 @@
         @endif
     </div>
 @endif
+
 
 @endsection

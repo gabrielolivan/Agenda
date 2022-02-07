@@ -12,8 +12,9 @@
     @yield('breadcrumb')
 
     <div class="container">
-        @include('layout.alertas.sweet_sucesso')
         @yield('conteudo')
     </div>
+    
+    @include('layout.alertas.sweet-alert')
 </body>
 </html>
