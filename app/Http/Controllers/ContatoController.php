@@ -20,27 +20,20 @@ class ContatoController extends Controller
             ->withCount('enderecos', 'telefones')
             ->cursorPaginate(5);
 
-        $mensagem = $request->session()->get('mensagem');
-
-        return view('contato.index', compact('contatos', 'mensagem'));
+        return view('contato.index', compact('contatos'));
     }
 
-    public function index_beta(Request $request, ContatoDataTable $dataTable)
+    public function index_beta(ContatoDataTable $dataTable)
     {
-        
-        $mensagem = $request->session()->get('mensagem');
-
-        return $dataTable->render('contato.index-beta', compact('mensagem'));
+        return $dataTable->render('contato.index-beta');
     }
 
 
     // Estilo SV
 
-    public function index_code(Request $request)
+    public function index_code()
     {
-        $mensagem = $request->session()->get('mensagem');
-
-        return view('contato.index-code', compact('mensagem'));
+        return view('contato.index-code');
     }
 
     public function datatable(DataTables $dataTables)
@@ -122,13 +115,10 @@ class ContatoController extends Controller
             ]);
         };
 
-        
-        $request->session()->flash(
-            'mensagem',
-            "Contato $contato->nome foi criado com sucesso."
-        );
-
-        return redirect()->route('contato.index_code');
+        return redirect()->route('contato.index_code')->with([
+            'mensagem' => "Contato $contato->nome foi criado com sucesso.",
+            // 'erro' => true,
+        ]);
     }
 
     /**
@@ -141,9 +131,7 @@ class ContatoController extends Controller
     {
         $contato->load('enderecos', 'telefones');
 
-        $mensagem = $request->session()->get('mensagem');
-
-        return view('contato.show', compact('contato', 'mensagem'));
+        return view('contato.show', compact('contato'));
     }
 
     /**
@@ -217,13 +205,10 @@ class ContatoController extends Controller
                 'descricao' => $request->input("descricao_telefone{$telefone->id}")
         ]);
 
-        
-        $request->session()->flash(
-            'mensagem',
-            "Contato $contato->nome foi atualizado com sucesso."
-        );
-
-        return redirect()->route('contato.show', $contato);
+        return redirect()->route('contato.show', $contato)->with([
+            'mensagem' => "Contato $contato->nome foi atualizado com sucesso.",
+            // 'erro' => true,
+        ]);
         
     }
 
@@ -236,12 +221,11 @@ class ContatoController extends Controller
     public function destroy(Contato $contato, Request $request)
     {
         $contato->delete();
-        $request->session()->flash(
-            'mensagem',
-            "Contato $contato->nome foi removido com sucesso."
-        );
 
         // return redirect()->back();
-        return redirect()->route('contato.index_code');
+        return redirect()->route('contato.index_code')->with([
+            'mensagem' => "Contato $contato->nome foi removido com sucesso.",
+            // 'erro' => true,
+        ]);
     }
 }
